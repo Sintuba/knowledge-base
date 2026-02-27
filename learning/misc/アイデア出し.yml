@@ -1,0 +1,113 @@
+app:
+  name: Thought Refinery
+  purpose: >
+    殴り書きの思考を段階的に消化・昇華し、
+    AIと協調しながら「理解 → 整理 → 次の行動」に
+    つなげる個人用アプリ。
+
+core_concept:
+  principle:
+    - 原本はMarkdown（人間が書く）
+    - 構造化はアプリが行う
+    - 判断は人間、チェックと助言はAI
+  refinement_flow:
+    - capture: 殴り書き（learning）
+    - organize: 整理・明文化（specs候補）
+    - decide: 次に進めるか判断（人間）
+
+storage:
+  repository:
+    type: github
+    format: markdown
+  directories:
+    learning:
+      role: >
+        自分の理解を深めるためのメモ置き場。
+        雑でOK。途中の思考や迷いを含む。
+      ai_policy: 後でAIに食わせて整理する前提
+    specs:
+      role: >
+        AIや他人に渡す前提の完成形に近い文書。
+        前提・制約・判断基準を明文化する。
+      subdirs:
+        ai:
+          role: >
+            AIの人格・役割・禁止事項を定義する中核。
+    snippets:
+      role: >
+        コピペ・再利用前提のコードや断片。
+        思考の昇華対象外。
+    logs:
+      role: >
+        学習日誌・思考ログ。
+        時系列で「何をし、どこで詰まったか」を残す。
+    rules:
+      role: >
+        リポジトリ全体の運用ルール。
+        書き方・命名・AIに渡す前提を固定する。
+
+ui:
+  list_view:
+    description: >
+      各ディレクトリごとにMarkdownファイルを一覧表示。
+    item_actions:
+      - open: 編集画面を開く
+      - select: チェックを付ける
+  editor_view:
+    format: markdown
+    features:
+      - simple_edit
+      - autosave
+  checklist:
+    purpose: >
+      思考の状態を軽い意思表示で示す。
+    items:
+      - ai_review: AIに状況チェックを依頼する
+      - promote_candidate: 整理・昇華の候補
+      - keep_learning: まだlearningに留める
+
+yaml_output:
+  role: >
+    AIに渡すための「状態スナップショット」。
+    人間は直接編集しない。
+  generation_trigger:
+    - checklist_updated
+  schema:
+    id: string
+    directory: enum [learning, specs, snippets, logs, rules]
+    status:
+      type: enum
+      values: [raw, refining, stable]
+    signals:
+      ai_review: boolean
+      promote_candidate: boolean
+    meta:
+      title: string
+      updated_at: date
+      length: enum [short, medium, long]
+    guidance_questions:
+      - このメモは何を扱っているか？
+      - 何が未整理か？
+      - 次に進める価値はあるか？
+
+ai_integration:
+  usage:
+    - yaml_only: true
+    - markdown_optional: true
+  ai_role:
+    - 状態を評価する
+    - 不足点を指摘する
+    - 次の選択肢を提示する
+  ai_must_not:
+    - 勝手に昇格を決定しない
+    - 内容を書き換えない
+
+rules_policy:
+  fundamentals:
+    - 書くときは置き場所を悩まない（learningでOK）
+    - YAMLは裏側の構造データ
+    - AIは編集者ではなくレビュア
+  evolution:
+    - 違和感が出たらrulesに1行足す
+    - 最初から完璧を目指さない
+``
