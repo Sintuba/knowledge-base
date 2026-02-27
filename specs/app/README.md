@@ -38,14 +38,14 @@
 
 | 役割 | 技術 |
 |---|---|
-| フレームワーク | Next.js 15（App Router + TypeScript） |
-| スタイリング | Tailwind CSS |
-| 認証 | NextAuth.js + GitHub OAuth |
-| GitHub操作 | Octokit（公式SDK） |
+| プラットフォーム | **Electron**（デスクトップアプリ） |
+| フロントエンド | React 19 + TypeScript |
+| ビルドツール | electron-vite |
+| スタイリング | Tailwind CSS v4 |
+| ファイル操作 | Node.js fs（直接読み書き・GitHub API不要） |
 | Markdownエディタ | @uiw/react-md-editor |
 | YAMLパース | js-yaml |
-| Markdownプレビュー | react-markdown |
-| デプロイ | Vercel |
+| Git操作（任意） | simple-git |
 
 ---
 
